@@ -13,12 +13,17 @@ pipeline {
                     AttackType = configProperties['AttackType']
                     DeploymentName = configProperties['DeploymentName']
                 }
-                 when {
+        stage('Creating scenario')
+            when {
 
-                expression { AttackType == 'Latency' }
+                expression {
+
+                AttackType == 'AttackType' && DeploymentName == 'DeploymentName'
+
+                        }
 
                 }
-                  agent any
+                  
                     //Creating Scenarios
                 echo "Attack Type: ${AttackType}"
                 echo "Deployment Name: ${DeploymentName}"
