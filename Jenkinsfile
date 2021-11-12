@@ -13,11 +13,11 @@ pipeline {
                     AttackType = configProperties['AttackType']
                     DeploymentName = configProperties['DeploymentName']
                 }
-      //      when {
+                 when {
 
-       //         expression {
+                expression {
 
-         //       AttackType == 'AttackType' && DeploymentName == 'DeploymentName'
+                  AttackType == 'Latency' 
 
          //               }
 
