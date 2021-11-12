@@ -14,6 +14,13 @@ pipeline {
                     DeploymentName = configProperties['DeploymentName']
                 }
 
+                when {
+                    expression { AttackType == 'Latency' }
+                    expression { DeploymentName == 'ap130852-fire-calcengine' }
+               }
+                agent any   
+                
+                 
                 echo "Attack Type: ${AttackType}"
                 echo "Deployment Name: ${DeploymentName}"
             }
