@@ -14,10 +14,11 @@ pipeline {
                     DeploymentName = configProperties['DeploymentName']
                 }
 
-                if {
-                    expression { 
-                        AttackType == 'Latency' && DeploymentName == 'ap130852-fire-calcengine' 
-                    }
+                when {
+                    allOf {
+                        AttackType "Latency"
+                        DeploymentName "ap130852-fire-calcengine"
+                    }                    
                }
                           
                  
