@@ -14,12 +14,14 @@ pipeline {
                     DeploymentName = configProperties['DeploymentName']
                 }
             when {
-                allOf {
-                    branch "master"
-                    environment(name: "ENV", value: "production")
-                    tag "release-*"
+
+                expression {
+
+                AttackType == 'AttackType' && DeploymentName == 'DeploymentName'
+
+                        }
+
                 }
-            }
                   
                     //Creating Scenarios
                 echo "Attack Type: ${AttackType}"
