@@ -7,11 +7,11 @@ pipeline {
             steps {
                 script {
                     //Get variables properties file
-                    def props = readProperties file: './config.properties'
+                    configProperties = readProperties file: './config.properties'
 
                     //Get variables
-                    AttackType = props['AttackType']
-                    DeploymentName = props['DeploymentName']
+                    AttackType = configProperties['AttackType']
+                    DeploymentName = configProperties['DeploymentName']
                 }
 
                 echo "Attack Type: ${AttackType}"
