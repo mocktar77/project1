@@ -18,7 +18,7 @@ pipeline {
                 expression { AttackType == 'Latency' }
 
                 }
-                  
+                  agent any
                     //Creating Scenarios
                 echo "Attack Type: ${AttackType}"
                 echo "Deployment Name: ${DeploymentName}"
