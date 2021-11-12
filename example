@@ -1,1 +1,52 @@
-Tis is a sample file
+# Common Properties 
+## Mandatory for all the attacks
+## AttackType should be anyone of these Options: Latency, Packetloss, CPU_Utilization, Shutdown
+## Infrastructure should be anyone of these Options: Kubernetes, C2C, EC2
+## Based on the APP, need to provide respective ClusterName, Namespace and DeploymentName 
+AttackType=CPU_Utilization
+Infrastructure=Kubernetes
+ClusterName=eks-chaos-aws
+Namespace=default
+DeploymentName=productpage-v1
+
+# Latency Attack Properties
+## Need to fill only for Latency Attack
+## Latency_Port - Application listening port 
+## Latency_Length - Length of the attack. it is in seconds
+## Latency_Delay - Howlong to delay. It is in milliseconds
+Latency_Port=8080
+Latency_Delay_First=500
+Latency_Length_First=60
+Latency_Delay_Second=1000
+Latency_Length_Second=60
+Latency_Delay_Third=200
+Latency_Length_Third=60
+
+# Packetloss Attack Properties
+## Need to fill only for Packetloss Attack
+## Packetloss_Port - Application listening port 
+## Packetloss_Length - Length of the attack. it is in seconds
+## Packetloss_Percentage - Percentage of packets to drop 
+Packetloss_Port=8080
+Packetloss_Length_First=60
+Packetloss_Percentage_First=75
+Packetloss_Length_Second=60
+Packetloss_Percentage_Second=85
+Packetloss_Length_Third=60
+Packetloss_Percentage_Third=95
+
+# CPU Utilization Attack Properties
+## Need to fill only for CPU_Utilization Attack
+## CPU_Util_Length - Length of the attack. it is in seconds
+## CPU_Util_Percentage - Percentage of CPU to consume on each core 
+CPU_Util_Length_First=60
+CPU_Util_Percentage_First=70
+CPU_Util_Length_Second=60
+CPU_Util_Percentage_Second=80
+CPU_Util_Length_Third=60
+CPU_Util_Percentage_Third=90
+
+# Shutdown Attack Properties
+## Need to fill only for Shutdown Attack
+## Shutdown_Delay - Number of minutes to dealy before shutting down
+Shutdown_Delay=1
