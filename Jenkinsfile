@@ -17,7 +17,7 @@ pipeline {
 
                 expression {
 
-                AttackType == 'AttackType' && DeploymentName == 'DeploymentName'
+                AttackType == 'Latency' && DeploymentName == 'ap130852-fire-calcengine'
 
                         }
 
