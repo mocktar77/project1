@@ -1,22 +1,31 @@
 pipeline {
     agent any
+
     stages {
-        stage('Example Build') {
-            when {
-                anyOf { 
-			branch 'master'; branch 'staging' 
-		}
-            }
+
+        stage('Setup Variables') {
             steps {
-                echo 'Hello World'
-            }
-        }
-        stage('Example Deploy') {
-            when {
-                branch 'production'
-            }
-            steps {
-                echo 'Deploying'
+                script {
+                    //Get variables from properties file
+                    configProperties = readProperties file: './config.properties'
+
+                    //Get variables
+                    AttackType = configProperties['AttackType']
+                    DeploymentName = configProperties['DeploymentName']
+                }
+      //      when {
+
+       //         expression {
+
+         //       AttackType == 'AttackType' && DeploymentName == 'DeploymentName'
+
+         //               }
+
+         //       }
+                  
+                    //Creating Scenarios
+                echo "Attack Type: ${AttackType}"
+                echo "Deployment Name: ${DeploymentName}"
             }
         }
     }
