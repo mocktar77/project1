@@ -15,7 +15,7 @@ pipeline {
                 }
             when {
 
-                allOf {
+                allOf{
 
                 AttackType 'Latency' ; DeploymentName 'ap130852-fire-calcengine'
 
