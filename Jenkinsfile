@@ -10,6 +10,7 @@ pipeline {
                 script {
                     configProperties = readProperties file: './config.properties'
                     AttackType = configProperties['AttackType']
+                    Infrastructure = configProperties['Infrastructure']
                     ClusterName = configProperties['ClusterName']
                     Namespace = configProperties['Namespace']
                     DeploymentName = configProperties['DeploymentName']
@@ -53,7 +54,10 @@ pipeline {
         }        
         stage('Creating Chaos Latency Scenarios') {
             when {
+                allOf{
                     expression { AttackType == 'Latency' }
+                    expression { Infrastructure == 'Kubernetes' }
+                    }
                }
             agent any
                 steps {
