@@ -1,31 +1,22 @@
 pipeline {
     agent any
-
     stages {
-
-        stage('Setup Variables') {
-            steps {
-                script {
-                    //Get variables from properties file
-                    configProperties = readProperties file: './config.properties'
-
-                    //Get variables
-                    AttackType = configProperties['AttackType']
-                    DeploymentName = configProperties['DeploymentName']
-                }
+        stage('Example Build') {
             when {
-
-                allOf{
-
-                AttackType 'Latency' ; DeploymentName 'ap130852-fire-calcengine'
-
-                        }
-
-                }
-                  
-                    //Creating Scenarios
-                echo "Attack Type: ${AttackType}"
-                echo "Deployment Name: ${DeploymentName}"
+                anyOf { 
+			branch 'master'; branch 'staging' 
+		}
+            }
+            steps {
+                echo 'Hello World'
+            }
+        }
+        stage('Example Deploy') {
+            when {
+                branch 'production'
+            }
+            steps {
+                echo 'Deploying'
             }
         }
     }
