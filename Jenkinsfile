@@ -15,13 +15,9 @@ pipeline {
                 }
                  when {
 
-                expression {
+                expression { AttackType == 'Latency' }
 
-                  AttackType == 'Latency' 
-
-         //               }
-
-         //       }
+                }
                   
                     //Creating Scenarios
                 echo "Attack Type: ${AttackType}"
