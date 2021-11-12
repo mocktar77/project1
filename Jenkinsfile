@@ -15,9 +15,9 @@ pipeline {
                 }
             when {
 
-                expression {
+                allOf {
 
-                AttackType == 'Latency' && DeploymentName == 'ap130852-fire-calcengine'
+                AttackType 'Latency' ; DeploymentName 'ap130852-fire-calcengine'
 
                         }
 
