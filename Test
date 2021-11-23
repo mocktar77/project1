@@ -1,5 +1,5 @@
 pipeline {
-    agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+    agent {label 'xxxxxxxx'}
     environment {
         run_num = ''
         GREMLIN_EKS_API_KEY = credentials('gremlin-eks-api-key')
@@ -13,7 +13,7 @@ pipeline {
     }
     stages {
         stage('Execute Scenario') {
-            agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+            agent {label 'xxxxxxx'}
             steps {
                 script {
                     run_num =
@@ -27,7 +27,7 @@ pipeline {
             }
         }
         stage('Verifying Scenario Status') {
-            agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+            agent {label 'xxxxxxxxx'}
             steps {
                 script {
                     Job_Status =
@@ -61,7 +61,7 @@ pipeline {
     post {
         always { 
             emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", 
-                replyTo: 'do-not-reply@fmr.com', 
+                replyTo: 'do-not-reply@xxx.com', 
                 subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
                 to: "${EmailAddress}"
         }
