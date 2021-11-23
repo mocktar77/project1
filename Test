@@ -1,0 +1,69 @@
+pipeline {
+    agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+    environment {
+        run_num = ''
+        GREMLIN_EKS_API_KEY = credentials('gremlin-eks-api-key')
+        GREMLIN_EKS_TEAM_ID = credentials('gremlin-eks-team-id')
+        GREMLIN_SMI_API_KEY = credentials('gremlin-smi-api-key')
+        GREMLIN_SMI_TEAM_ID = credentials('gremlin-smi-team-id')
+    }
+    parameters {
+        string(name: 'Scenario_ID', defaultValue: '', description: 'which scenario to execute')
+        string(name: 'EmailAddress', defaultValue: '', description: 'Email id to send the console output')
+    }
+    stages {
+        stage('Execute Scenario') {
+            agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+            steps {
+                script {
+                    run_num =
+                        sh (script: "curl -X POST 'https://api.gremlin.com/v1/scenarios/${Scenario_ID}/runs?teamId=${GREMLIN_EKS_TEAM_ID}' \
+                                -H 'Content-Type: application/json;charset=utf-8' -H 'Authorization: Key ${GREMLIN_EKS_API_KEY}' \
+                                -d '{}'",
+                                returnStdout: true).trim()
+                        echo "See your attack at https://app.gremlin.com/scenarios/detail/${Scenario_ID}/runs/${run_num}"
+                        sh 'sleep 183'
+				}
+            }
+        }
+        stage('Verifying Scenario Status') {
+            agent {label 'FPCMS-EKS-NP-NODE-DIT'}
+            steps {
+                script {
+                    Job_Status =
+                        sh (script: "curl -s 'https://api.gremlin.com/v1/scenarios/${Scenario_ID}/runs/${run_num}?teamId=${GREMLIN_EKS_TEAM_ID}' \
+                                -H 'Authorization: Key ${GREMLIN_EKS_API_KEY}' \
+                                -H 'accept: application/json' | /home/jensaa00/jq -r '.[].stage_info[].stage'",
+                                returnStdout: true).trim()
+                        echo "Job_Status is $Job_Status}"
+        stage('Check Job status'){
+            steps {
+                timeout(15) {
+                    waitUntil {
+                        sleep 20
+                        sh (script: $Job_Status == "Completed", returnStatus: true == 0)
+                }
+            }
+        }
+    }               
+                    if [ $Job_Status == "Active"]; then
+                        echo "Job is running"
+                    elif [ $Job_Status == "Completed"]
+                        echo "Job has completed"
+                    else 
+                        echo "Job has failed or Halted"
+                        echo "See your attack at https://app.gremlin.com/scenarios/detail/${Scenario_ID}/runs/${run_num}"
+                    fi
+				}
+            }
+        }        
+    }
+    post {
+        always { 
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", 
+                replyTo: 'do-not-reply@fmr.com', 
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}",
+                to: "${EmailAddress}"
+        }
+    }    
+}
