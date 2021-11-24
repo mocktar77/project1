@@ -67,3 +67,24 @@ pipeline {
         }
     }    
 }
+
+pipeline {
+    agent any
+    stages {
+        stage('1') {
+            steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    waitUntil {
+                        script {
+                            def ret = sh script: 'ps ux | grep testout.sh  | grep -v grep | wc -l', returnStdout: true
+                            echo ret
+                            if (ret != 0) {
+                                // what should i use to finish this step?
+                            }
+                        }                        
+                    }
+                }
+            }
+        }
+    }
+}
